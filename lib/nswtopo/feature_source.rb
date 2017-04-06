@@ -242,7 +242,6 @@ module NSWTopo
       get_query = {
         "request" => "GetFeature",
         "typeNames" => type_name,
-        "propertyName" => names.join(?,),
         "count" => per_page,
         "cql_filter" => "(#{filters.join ') AND ('})"
       }
