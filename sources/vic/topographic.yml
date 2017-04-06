@@ -1,207 +1,137 @@
 min-version: '1.4'
 class: FeatureSource
 sources:
-  topography:
-    protocol: arcgis
-    url: https://emap.depi.vic.gov.au
-    folder: add_map_layers
-    service: topography
-  mapscape:
-    protocol: arcgis
-    url: https://emap.depi.vic.gov.au
-    service: mapscape
   wfs:
     protocol: wfs
-    # url: http://services.land.vic.gov.au/geoserver_pWMS/wfs
-    url: http://services.land.vic.gov.au/catalogue/publicproxy/guest/sdm_geoserver/wfs
-  land-class-use:
-    protocol: arcgis
-    url: https://emap.depi.vic.gov.au
-    service: land_class_use_culture
+    url: http://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs
 features:
-  plantations:
-    source: land-class-use
-    name: Plantations
-    where: PLANTATION_TYPE IN ('SOFTWOOD')
   contours-10m:
   - source: wfs
-    name: VMELEV.EL_CONTOUR
+    name: VMELEV_EL_CONTOUR
     category: FEATURE_TYPE_CODE
   - source: wfs
-    name: VMELEV.EL_CONTOUR
+    name: VMELEV_EL_CONTOUR
     label-only: true
     label: ALTITUDE
     filter: FEATURE_TYPE_CODE IN ('contour_index','contour_dep_index')
+  spotheight:
+   source: wfs
+   name: VMELEV_EL_GRND_SURFACE_POINT
+   label: ALTITUDE
+   filter: FEATURE_TYPE_CODE IN ('spot_height')
+  mountain:
+   source: wfs
+   name: VMELEV_EL_GRND_TYPE_POINT
+   label: NAME
+   filter: FEATURE_TYPE_CODE IN ('mountain')
+  groundtype:  
+   source: wfs
+   name: VMELEV_GROUND_TYPE_ROCK_OC
+  snowpole:
+   source: wfs
+   name: VMFEAT_FOI_POINT
+   label: NAME_LABEL
+   filter: FEATURE_SUBTYPE IN ('snow pole')
+  emergencymarker:
+   source: wfs
+   name: VMFEAT_FOI_POINT
+   label: NAME_LABEL
+   filter: FEATURE_SUBTYPE IN ('emergency marker')
   excavation:
-    source: wfs
-    name: VMFEAT.FOI_POLYGON
-    filter: FEATURE_TYPE IN ('excavation site')
-    category: FEATURE_SUBTYPE
-  cadastre:
-    source: mapscape
-    name: Property
-  road-tunnels:
-    source: topography
-    name: Roads (50K)
-    where:
-    - X_CLASS NOT IN ('Proposed')
-    - FEATURE_TYPE_CODE IN ('tunnel')
-    category: X_CLASS
-  railway-tunnels:
-    source: wfs
-    name: VMTRANS.TR_RAIL
-    filter: FEATURE_TYPE_CODE IN ('rail_uground_o','tunnel_rail_o')
-    category:
-      RAIL_GAUGE:
-        ~: Standard
-        "1": Standard
-        "2": Broad
-        "3": Broad
-        "4": Narrow
-        "5": Narrow
+   source: wfs
+   name: VMFEAT_FOI_POLYGON
+   filter: FEATURE_TYPE IN ('excavation site')
+   category: FEATURE_SUBTYPE
   swamps-inundation:
-    source: wfs
-    name: VMHYDRO.HY_WATER_AREA_POLYGON
-    filter: FEATURE_TYPE_CODE IN ('flat_sti','wetland_swamp')
-    category: FEATURE_TYPE_CODE
+   source: wfs
+   name: VMHYDRO_HY_WATER_AREA_POLYGON
+   filter: FEATURE_TYPE_CODE IN ('flat_sti','wetland_swamp')
+   category: FEATURE_TYPE_CODE
+  coastline:
+   source: wfs
+   name: VMINDEX_FR_FRAMEWORK_AREA_LINE
+   filter: FEATURE_TYPE_CODE = 'coast'     
+  ferry-routes:
+   source: wfs
+   name: VMTRANS_TR_ROAD
+   filter: FEATURE_TYPE_CODE IN ('ferry_route')
   watercourses:
-    source: topography
-    name: Watercourse (50K)
-    category:
-    - HIERARCHY
-    - FEATURE_TYPE_CODE
-    label: NAME
+   source: wfs
+   name: VMHYDRO_HY_WATERCOURSE
+   category:
+   - HIERARCHY
+   - FEATURE_TYPE_CODE
+   label: NAME
   stock-dams:
   - source: wfs
-    name: VMHYDRO.HY_WATER_POINT
+    name: VMHYDRO_HY_WATER_POINT
     filter: FEATURE_TYPE_CODE IN ('wb_dam')
   - source: wfs
-    name: VMHYDRO.HY_WATER_STRUCT_POINT
+    name: VMHYDRO_HY_WATER_STRUCT_POINT
     filter:
     - FEATURE_TYPE_CODE IN ('watering_place')
-    - STRUCTURE_TYPE IN ('3')
+    - STRUCTURE_TYPE IN ('3') 
   waterfalls:
-    source: wfs
-    name: VMHYDRO.HY_WATER_POINT
-    filter: FEATURE_TYPE_CODE IN ('waterfall')
-    rotate: ROTATION
-    rotation-style: arithmetic
-    label: NAME
+   source: wfs
+   name: VMHYDRO_HY_WATER_POINT
+   filter: FEATURE_TYPE_CODE IN ('waterfall')
+   rotate: ROTATION
+   rotation-style: arithmetic 
+   label: NAME
   waterbodies:
-    source: wfs
-    name: VMHYDRO.HY_WATER_AREA_POLYGON
-    filter: FEATURE_TYPE_CODE NOT IN ('flat_sti','wetland_swamp')
-    category:
-      WATERBODY_STATE:
-        "1": Intermittent
-        "2": Perennial
-        ~: Perennial
-  coastline:
-    source: wfs
-    name: VMSHARED.FR_FRAMEWORK_AREA_LINE
-    filter: FEATURE_TYPE_CODE = 'coast'
-  ferry-routes:
-    source: wfs
-    name: VMTRANS.TR_ROAD
-    filter: FEATURE_TYPE_CODE IN ('ferry_route')
-  recreational-perimeters:
-    source: wfs
-    name: VMFEAT.FOI_POLYGON
-    filter: FEATURE_TYPE IN ('sport facility')
-    category: FEATURE_SUBTYPE
-  fords:
-    source: topography
-    name: Roads (50K)
-    where:
-    - X_CLASS NOT IN ('Proposed')
-    - FEATURE_TYPE_CODE IN ('ford')
-    category: X_CLASS
-  roads:
-  - source: topography
-    name: Roads (50K)
-    where:
-    - X_CLASS NOT IN ('Proposed')
-    - FEATURE_TYPE_CODE NOT IN ('connector','tunnel','ferry_route')
-    category:
-    - X_CLASS
-    - X_SEALED
-  - source: topography
-    name: Roads (50K)
-    where:
-    - X_CLASS IN ('Freeway','Highway','Arterial','Sub-Arterial','Collector','2wd','4wd','Walking Track','Bicycle Track')
-    - FEATURE_TYPE_CODE NOT IN ('connector','ferry_route')
-    - UNNAMED_RD IS NULL
-    label-only: true
-    label: LABEL
-    category: X_CLASS
+   source: wfs
+   name: VMHYDRO_HY_WATER_AREA_POLYGON
+   filter: FEATURE_TYPE_CODE NOT IN ('flat_sti','wetland_swamp')
+   category:
+    WATERBODY_STATE:
+     "1": Intermittent
+     "2": Perennial
+     ~: Perennial
+  reserves:
+   source: wfs
+   name: VMFEAT_FOI_POLYGON
+   filter: FEATURE_TYPE IN ('reserve') 
+   category: FEATURE_SUBTYPE    
   railways:
-    source: wfs
-    name: VMTRANS.TR_RAIL
-    filter:
+   source: wfs
+   name: VMTRANS_TR_RAIL
+   filter:
     - FEATURE_TYPE_CODE NOT IN ('rail_uground_o','tunnel_rail_o','rail_trail')
     - PHYSICAL_CONDITION NOT IN ('1')
-    category:
-      RAIL_GAUGE:
-        ~: Standard
-        "1": Standard
-        "2": Broad
-        "3": Broad
-        "4": Narrow
-        "5": Narrow
-  road-bridges:
-    source: topography
-    name: Roads (50K)
-    where:
-    - X_CLASS NOT IN ('Proposed')
-    - FEATURE_TYPE_CODE IN ('bridge','foot_bridge')
-    category:
-    - X_CLASS
-    - X_SEALED
-  railway-bridges:
-    source: wfs
-    name: VMTRANS.TR_RAIL
-    filter:
-    - FEATURE_TYPE_CODE IN ('bridge_rail_o','bridge_rail_dm','bridge_rail_du')
-    - PHYSICAL_CONDITION NOT IN ('1')
-    category:
-      RAIL_GAUGE:
-        ~: Standard
-        "1": Standard
-        "2": Broad
-        "3": Broad
-        "4": Narrow
-        "5": Narrow
+   category:
+    RAIL_GAUGE:
+     ~: Standard
+     "1": Standard
+     "2": Broad
+     "3": Broad
+     "4": Narrow 
+     "5": Narrow       
   tanks:
-    source: wfs
-    name: VMHYDRO.HY_WATER_STRUCT_POINT
-    filter: FEATURE_TYPE_CODE IN ('tank_water')
+   source: wfs
+   name: VMHYDRO_HY_WATER_STRUCT_POINT
+   filter: FEATURE_TYPE_CODE IN ('tank_water')  
   railway-stations:
-    source: mapscape
-    name: Rail Stations
-    where: PHYSICAL_CONDITION NOT IN ('1','2')
-  spot-heights:
-    source: wfs
-    name: VMELEV.EL_GRND_SURFACE_POINT
-    label: ALTITUDE
+   source: wfs
+   name: VMTRANS_RAIL_STATION_OPERATIONAL
   transmission-lines:
-    source: mapscape
-    name: Transmission Lines
-    where: FEATURE_TYPE IN ('power line')
+   source: wfs
+   name: VMFEAT_FOI_LINE
+   filter: FEATURE_TYPE IN ('power line') 
   state-border:
-    source: wfs
-    name: VMSHARED.FR_FRAMEWORK_AREA_LINE
-    filter: FEATURE_TYPE_CODE = 'state_border'
+   source: wfs
+   name: VMINDEX_FR_FRAMEWORK_AREA_LINE
+   filter: FEATURE_TYPE_CODE = 'state_border'
   place-names:
-    source: mapscape
-    name: Towns
-    label-only: true
-    label: PLACE_NAME_LABEL
-  feature-names:
-    source: mapscape
-    name: Topographic Features (Points)
-    label-only: true
-    label: PLACE_NAME_LABEL
-    category: FEATURE_TYPE_CODE
+   source: wfs
+   name: VMFEAT_LOCALITY_POINT
+   label-only: true
+   label: PLACE_NAME_LABEL
+  huts:
+   source: wfs
+   name: VMFEAT_FOI_POINT
+   filter: FEATURE_SUBTYPE IN ('hut') 
+   label-only: true
+   label: NAME_LABEL  
 
 plantations:
   pattern:
@@ -232,6 +162,9 @@ contours-10m:
         stroke: "#805100"
         stroke-width: 0.12
         y2: 0.3
+reserves:
+  fill: "#cce8cc"
+  opacity: 0.5
 excavation:
   fill: none
   stroke: black
