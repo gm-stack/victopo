@@ -14,6 +14,9 @@ features:
     label-only: true
     label: ALTITUDE
     filter: FEATURE_TYPE_CODE IN ('contour_index','contour_dep_index')
+  sand: 
+   source: wfs
+   name: VMELEV_GROUND_TYPE_SAND
   spotheight:
    source: wfs
    name: VMELEV_EL_GRND_SURFACE_POINT
@@ -110,9 +113,6 @@ features:
    source: wfs
    name: VMHYDRO_HY_WATER_STRUCT_POINT
    filter: FEATURE_TYPE_CODE IN ('tank_water')  
-  railway-stations:
-   source: wfs
-   name: VMTRANS_RAIL_STATION_OPERATIONAL
   transmission-lines:
    source: wfs
    name: VMFEAT_FOI_LINE
@@ -132,7 +132,16 @@ features:
    filter: FEATURE_SUBTYPE IN ('hut') 
    label-only: true
    label: NAME_LABEL  
+  boads:
+    source: wfs
+    name: VMTRANS_TR_ROAD
+    filter: CLASS_CODE IN ('11','12')
 
+boads:
+  stroke-width: 0.4
+  stroke: black
+  stroke-width: 0.25
+  stroke-dasharray: 1.4 0.7 
 plantations:
   pattern:
     width: 3.12
@@ -150,6 +159,9 @@ plantations:
 urban-areas:
   stroke: none
   fill: "#FFFABD"
+sand: 
+  stroke: none
+  fill: "#eded8e"
 contours-10m:
   stroke: "#805100"
   stroke-width: 0.12
