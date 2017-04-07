@@ -132,16 +132,154 @@ features:
    filter: FEATURE_SUBTYPE IN ('hut') 
    label-only: true
    label: NAME_LABEL  
-  boads:
-    source: wfs
+  sealed_hwy_fwy_art_roads:
+  - souce: wfs
+    name: VMTRANS_TR_ROAD
+    filter: 
+     - CLASS_CODE IN ('0','1','2')
+     - ROAD_SEAL NOT IN ('2')
+  - souce: wfs
+    name: VMTRANS_TR_ROAD
+    filter: 
+     - CLASS_CODE IN ('0','1','2')
+     - ROAD_SEAL NOT IN ('2')
+     - ROAD_NAME NOT IN ('UNNAMED')
+    lable-only: ture
+    lable: EZI_ROAD_NAME_LABEL       
+  unsealed_hwy_fwy_art_roads:
+  - souce: wfs
+    name: VMTRANS_TR_ROAD
+    filter: 
+    - CLASS_CODE IN ('0','1','2')
+    - ROAD_SEAL NOT IN ('1','3')
+  - souce: wfs
+    name: VMTRANS_TR_ROAD
+    filter: 
+     - CLASS_CODE IN ('0','1','2')
+     - ROAD_SEAL NOT IN ('1','3')
+     - ROAD_NAME NOT IN ('UNNAMED')
+    lable-only: ture
+    lable: EZI_ROAD_NAME_LABEL       
+  sealed_subarterial_collector_roads:
+  - souce: wfs
+    name: VMTRANS_TR_ROAD
+    filter: 
+     - CLASS_CODE IN ('3','4')
+     - ROAD_SEAL NOT IN ('2')
+  - souce: wfs
+    name: VMTRANS_TR_ROAD
+    filter: 
+     - CLASS_CODE IN ('3','4')
+     - ROAD_SEAL NOT IN ('2')
+     - ROAD_NAME NOT IN ('UNNAMED')
+    lable-only: ture
+    lable: EZI_ROAD_NAME_LABEL     
+  unsealed_subarterial_collector_roads:
+  - souce: wfs
+    name: VMTRANS_TR_ROAD
+    filter: 
+     - CLASS_CODE IN ('3','4')
+     - ROAD_SEAL NOT IN ('1','3')
+  - souce: wfs
+    name: VMTRANS_TR_ROAD
+    filter: 
+     - CLASS_CODE IN ('3','4')
+     - ROAD_SEAL NOT IN ('1','3')
+     - ROAD_NAME NOT IN ('UNNAMED')
+    lable-only: ture
+    lable: EZI_ROAD_NAME_LABEL    
+  sealed_local_roads:
+  - souce: wfs
+    name: VMTRANS_TR_ROAD
+    filter: 
+     - CLASS_CODE IN ('5')
+     - ROAD_SEAL NOT IN ('2')
+  - souce: wfs
+    name: VMTRANS_TR_ROAD
+    filter: 
+     - CLASS_CODE IN ('5')
+     - ROAD_SEAL NOT IN ('2')
+     - ROAD_NAME NOT IN ('UNNAMED')
+    lable-only: ture
+    lable: EZI_ROAD_NAME_LABEL 
+  unsealed_local_roads:
+  - souce: wfs
+    name: VMTRANS_TR_ROAD
+    filter: 
+     - CLASS_CODE IN ('5')
+     - ROAD_SEAL NOT IN ('1','3')
+  - souce: wfs
+    name: VMTRANS_TR_ROAD
+    filter: 
+     - CLASS_CODE IN ('5')
+     - ROAD_SEAL NOT IN ('1','3')
+     - ROAD_NAME NOT IN ('UNNAMED')
+    lable-only: ture
+    lable: EZI_ROAD_NAME_LABEL
+  4wdtrack:
+  - souce: wfs
+    name: VMTRANS_TR_ROAD
+    filter: CLASS_CODE IN ('7')
+  - souce: wfs
+    name: VMTRANS_TR_ROAD
+    filter: 
+     - CLASS_CODE IN ('7')
+     - ROAD_NAME NOT IN ('UNNAMED')
+    lable-only: ture
+    lable: EZI_ROAD_NAME_LABEL
+  2wdtrack:
+  - souce: wfs
+    name: VMTRANS_TR_ROAD
+    filter: CLASS_CODE IN ('6')
+  - souce: wfs
+    name: VMTRANS_TR_ROAD
+    filter: 
+     - CLASS_CODE IN ('6')
+     - ROAD_NAME NOT IN ('UNNAMED')
+    lable-only: ture
+    lable: EZI_ROAD_NAME_LABEL   
+  walk_cycle_tracks:
+  - souce: wfs
     name: VMTRANS_TR_ROAD
     filter: CLASS_CODE IN ('11','12')
-
-boads:
+  - souce: wfs
+    name: VMTRANS_TR_ROAD
+    filter: 
+    - CLASS_CODE IN ('11','12')
+    - ROAD_NAME NOT IN ('UNNAMED')
+    lable-only: ture
+    lable: EZI_ROAD_NAME_LABEL 
+    
+sealed_hwy_fwy_art_roads:
+  stroke-width: 0.6
+  stroke: red
+unsealed_hwy_fwy_art_roads:
+  stroke-width: 0.6
+  stroke: "#FF7518"
+sealed_subarterial_collector_roads:
+  stroke-width: 0.5
+  stroke: red
+unsealed_subarterial_collector_roads:
+  stroke-width: 0.5
+  stroke: "#FF7518"
+sealed_local_roads:
   stroke-width: 0.4
+  stroke: red
+unsealed_local_roads:
+  stroke-width: 0.4
+  stroke: "#FF7518"
+walk_cycle_tracks:
   stroke: black
   stroke-width: 0.25
   stroke-dasharray: 1.4 0.7 
+4wdtrack:
+  stroke-width: 0.3
+  stroke: "#FF7518"
+  stroke-dasharray: 1.8 0.6
+2wdtrack:
+  stroke-width: 0.4
+  stroke: "#FF7518"
+  stroke-dasharray: 3 1  
 plantations:
   pattern:
     width: 3.12
@@ -330,32 +468,6 @@ fords:
     stroke-width: 1.1
   [ Sub-Arterial, Collector ]:
     stroke-width: 1.0
-roads:
-  order:
-  - Unsealed
-  - Unknown
-  - Sealed
-  stroke-width: 0.4
-  [ Sealed, Unknown ]:
-    stroke: red
-  Unsealed:
-    stroke: "#FF7518"
-  [ Freeway, Highway, Arterial ]:
-    stroke-width: 0.6
-  [ Sub-Arterial, Collector ]:
-    stroke-width: 0.5
-  Local:
-    stroke-width: 0.4
-  [ Walking-Track, Bicycle-Track ]:
-    stroke: black
-    stroke-width: 0.25
-    stroke-dasharray: 1.4 0.7
-  2wd:
-    stroke-width: 0.4
-    stroke-dasharray: 3 1
-  4wd:
-    stroke-width: 0.3
-    stroke-dasharray: 1.8 0.6
 railways:
   dupe: hatching
   stroke: black
@@ -528,21 +640,71 @@ labels:
     fill: "#1667DF"
     collate: true
     separation: 20
-  roads:
+  sealed_hwy_fwy_art_roads
+    font-size: 1.8
+    letter-spacing: 0.1
+    collate: true
+    buffer: 2.0
+    separation: 100
+    optional: true
+    word-spacing: 1.0
+  unsealed_hwy_fwy_art_roads
+    font-size: 1.8
+    letter-spacing: 0.1
+    collate: true
+    buffer: 2.0
+    separation: 100
+    optional: true
+    word-spacing: 1.0
+  sealed_subarterial_collector_roads
+    font-size: 1.6
+    letter-spacing: 0.1
+    collate: true
+    buffer: 2.0
+    separation: 100
+    optional: true
+  unsealed_subarterial_collector_roads
+    font-size: 1.6
+    letter-spacing: 0.1
+    collate: true
+    buffer: 2.0
+    separation: 100
+    optional: true
+  sealed_local_roads
     font-size: 1.4
     letter-spacing: 0.1
     collate: true
     buffer: 2.0
     separation: 100
     optional: true
-  [ roads Walking-Track, roads Bicycle-Track, roads 2wd, roads 4wd ]:
+  unsealed_local_roads
     font-size: 1.4
+    letter-spacing: 0.1
+    collate: true
+    buffer: 2.0
+    separation: 100
+    optional: true
+  walk_cycle_tracks:
+    font-size: 1.4
+    letter-spacing: 0.1
+    collate: true
     buffer: 1.7
-  [ roads Sub-Arterial, roads Collector ]:
-    font-size: 1.6
-  [ roads Freeway, roads Highway, roads Arterial ]:
-    font-size: 1.8
-    word-spacing: 1.0
+    separation: 100
+    optional: true
+  4wdtrack:
+    font-size: 1.4
+    letter-spacing: 0.1
+    collate: true
+    buffer: 1.7
+    separation: 100
+    optional: true
+  2wdtrack:
+    font-size: 1.4
+    letter-spacing: 0.1
+    collate: true
+    buffer: 1.7
+    separation: 100
+    optional: true
   spot-heights:
     format: "%d"
     font-size: 1.4
