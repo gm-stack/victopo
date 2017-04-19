@@ -337,6 +337,7 @@ rotation: 0
         formats[format]
       end.each do |ppi, group|
         raster_path = temp_dir + "#{map.name}.#{ppi}.png"
+        puts raster_path
         if (group & %w[png tif gif jpg kmz psd]).any? || (ppi && group.include?("pdf"))
           dimensions = map.dimensions_at(ppi)
           puts "Generating raster: %ix%i (%.1fMpx) @ %i ppi" % [ *dimensions, 0.000001 * dimensions.inject(:*), ppi ]
