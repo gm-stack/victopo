@@ -45,11 +45,6 @@ features:
    name: VMFEAT_FOI_POINT
    label: NAME_LABEL
    filter: FEATURE_SUBTYPE IN ('camp ground')
-  camp:
-   source: wfs
-   name: VMFEAT_FOI_POINT
-   label: NAME_LABEL
-   filter: FEATURE_SUBTYPE IN ('camp ground')
   excavation:
    source: wfs
    name: VMFEAT_FOI_POLYGON
