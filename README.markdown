@@ -1,16 +1,14 @@
-Summary (Version 1.4)
+Summary (Version 0.9)
 =======================
 
-This software allows you to download and compile high-resolution vector topographic maps from the NSW and TAS geospatial data servers, covering the states of NSW, ACT and Tasmania. The resulting maps include many of the features found in the printed NSW topographic map series and are well-suited for printing. You can specify the exact extent of the area which you wish to map, as well as your desired scale (typically 1:25000). The topographic map is output in [scalable vector graphics](http://en.wikipedia.org/wiki/Scalable_Vector_Graphics) (SVG) format for use and further editing with vector graphics programs such as Inkscape or Illustrator. Other map formats including raster, KMZ and GeoTIFF can also be produced.
+This software allows you to download and compile high-resolution vector topographic maps from VIC (NSW and TAS untested) geospatial data servers. The resulting maps include many of the features found in the printed VIC topographic map series and are well-suited for printing. You can specify the exact extent of the area which you wish to map, as well as your desired scale (typically 1:25000). The topographic map is output in [scalable vector graphics](http://en.wikipedia.org/wiki/Scalable_Vector_Graphics) (SVG) format for use and further editing with vector graphics programs such as Inkscape or Illustrator. Other map formats including raster, KMZ and GeoTIFF can also be produced.
 
-This software was originally designed for the production of rogaining maps and as such includes several extra features (such as aerial imagery overlays, marker layers for control checkpoints, arbitrary map rotation and magnetic declination marker lines). However the software is also useful for anyone wanting to create custom NSW topo maps for outdoor recreation.
-
-**Notice for users of earlier versions:** The _nswtopo_ software is no longer contained in a single file, meaning it must be kept in its own directory. I recommend installing the software using [git](http://git-scm.com/) and running it as `ruby /path/to/nswtopo/bin/nswtopo` (or by adding `/path/to/nswtopo/bin/` to your path). See the [usage](#usage) section. Also, a minimum Ruby version of 2.1 is now required.
+This software is based on the excellent work of [Matthew Hollingworth](https://github.com/mholling) but has been updated to work specifically with the VIC geospacial data sercers. Matthew Hollingworth's orginal code was designed for the production of rogaining maps and ncluded several extra features (such as aerial imagery overlays, marker layers for control checkpoints, arbitrary map rotation and magnetic declination marker lines). This code is now aimed at anyone wanting to create custom VIC topo maps for outdoor recreation.
 
 Pre-Requisites
 ==============
 
-The software is run as a script, so you will need some familiarity with the command line. It was developed on a Mac but has also been tested on Windows and Linux.
+The software is run as a script, so you will need some familiarity with the command line. This Victorian version of the NSWTOPO has been developed and tested on ubuntu but has also been tested on Mac.
 
 The following open-source packages are required in order to run the script:
 
@@ -39,6 +37,11 @@ Finally, a geographic viewing or mapping program such as [Google Earth](http://e
   * Type `ruby -v` in a terminal window to see whether a version 2.1 or greater Ruby already exists. If not, you can install Ruby a number of ways, as explained [here](http://www.ruby-lang.org/en/downloads/). (If you are using MacPorts, `sudo port install ruby22 +nosuffix` should also work.)
   * Download and install Inkscape [here](http://inkscape.org/download/), or install it using MacPorts: `sudo port install inkscape`
 * _Linux_: You should be able to install the appropriate Ruby, ImageMagick, GDAL, Inkscape and zip packages using your distro's package manager (Pacman, RPM, Aptitude, etc).
+  * Using apt-get you can install by:
+    * sudo apt-get install imagemagick
+    * sudo apt-get install gdal-bin
+    * sudo apt-get install inkscape
+    * Follow the phantomjs install instructions [here](https://www.vultr.com/docs/how-to-install-phantomjs-on-ubuntu-16-04emagick)
 
 You can check that the tools are correctly installed by using the following commands:
 
@@ -53,7 +56,7 @@ A large amount of memory is helpful; you'll really want at least 4Gb or ideally 
 Usage
 =====
 
-The software can be downloaded from [github](https://github.com/mholling/nswtopo). It is best to download from the latest [tagged version](https://github.com/mholling/nswtopo/tags) as this should be stable. Download by clicking the 'ZIP' button. For more experienced or frequent users, I suggest installing the [git](http://git-scm.com/) command and cloning the entire repository with `git clone https://github.com/mholling/nswtopo.git`; update to the latest code at any time with `git pull` from within the `nswtopo` directory.
+The software can be downloaded from [github](https://github.com/rjtedge/nswtopo). It is best to download from the latest [tagged version](https://github.com/mholling/nswtopo/tags) as this should be stable. Download by clicking the 'ZIP' button. For more experienced or frequent users, I suggest installing the [git](http://git-scm.com/) command and cloning the entire repository with `git clone https://github.com/mholling/nswtopo.git`; update to the latest code at any time with `git pull` from within the `nswtopo` directory.
 
 You will first need to create a directory for the map you are building. Running the script will result in a various image and data files being downloaded, so a directory is needed to contain them.
 
