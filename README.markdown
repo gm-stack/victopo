@@ -3,12 +3,12 @@ Summary (Version 0.9)
 
 This software allows you to download and compile high-resolution vector topographic maps from VIC (NSW and TAS untested) geospatial data servers. The resulting maps include many of the features found in the printed VIC topographic map series and are well-suited for printing. You can specify the exact extent of the area which you wish to map, as well as your desired scale (typically 1:25000). The topographic map is output in [scalable vector graphics](http://en.wikipedia.org/wiki/Scalable_Vector_Graphics) (SVG) format for use and further editing with vector graphics programs such as Inkscape or Illustrator. Other map formats including raster, KMZ and GeoTIFF can also be produced.
 
-This software is based on the excellent work of [Matthew Hollingworth](https://github.com/mholling) but has been updated to work specifically with the VIC geospacial data sercers. Matthew Hollingworth's orginal code was designed for the production of rogaining maps and ncluded several extra features (such as aerial imagery overlays, marker layers for control checkpoints, arbitrary map rotation and magnetic declination marker lines). This code is now aimed at anyone wanting to create custom VIC topo maps for outdoor recreation.
+This software is based on the excellent work of [Matthew Hollingworth](https://github.com/mholling) but has been updated to work specifically with the VIC geospacial data servers. Matthew Hollingworth's orginal code was designed for the production of rogaining maps and included several extra features (such as aerial imagery overlays, marker layers for control checkpoints, arbitrary map rotation and magnetic declination marker lines). This code is now aimed at anyone wanting to create custom VIC topo maps for outdoor recreation.
 
 Pre-Requisites
 ==============
 
-The software is run as a script, so you will need some familiarity with the command line. This Victorian version of the NSWTOPO has been developed and tested on ubuntu but has also been tested on Mac.
+The software is run as a script, so you will need some familiarity with the command line. This Victorian version of the [NSWTOPO](https://github.com/mholling/nswtopo) has been developed and tested on ubuntu but has also been tested on Mac.
 
 The following open-source packages are required in order to run the script:
 
@@ -56,7 +56,7 @@ A large amount of memory is helpful; you'll really want at least 4Gb or ideally 
 Usage
 =====
 
-The software can be downloaded from [github](https://github.com/rjtedge/nswtopo). It is best to download from the latest [tagged version](https://github.com/mholling/nswtopo/tags) as this should be stable. Download by clicking the 'ZIP' button. For more experienced or frequent users, I suggest installing the [git](http://git-scm.com/) command and cloning the entire repository with `git clone https://github.com/mholling/nswtopo.git`; update to the latest code at any time with `git pull` from within the `nswtopo` directory.
+The software can be downloaded from [github](https://github.com/rjtedge/victopo). It is best to download from the latest [tagged version](https://github.com/mholling/victopo/tags) as this should be stable. Download by clicking the 'ZIP' button. For more experienced or frequent users, I suggest installing the [git](http://git-scm.com/) command and cloning the entire repository with `git clone https://github.com/rjtedge/victopo.git`; update to the latest code at any time with `git pull` from within the `victopo` directory.
 
 You will first need to create a directory for the map you are building. Running the script will result in a various image and data files being downloaded, so a directory is needed to contain them.
 
@@ -111,7 +111,7 @@ or,
 
 ## Running the Script
 
-Once you have created your configuration file, run the script in the directory to create your map. The script can be run as `ruby /path/to/nswtopo/bin/nswtopo` (where `/path/to/nswtopo` is the location where you downloaded or cloned the program). On Mac and Linux system, I recommend adding `/path/to/nswtopo/bin` to your executables path variable. (How to do this will vary by operating system, [Mac OS](https://www.google.com/search?q=max+add+path) or [Linux](https://www.google.com/search?q=linux+add+path).) You should then be able run it simply as the command `nswtopo`.
+Once you have created your configuration file, run the script in the directory to create your map. The script can be run as `ruby /path/to/victopo/bin/nswtopo` (where `/path/to/nswtopo` is the location where you downloaded or cloned the program). On Mac and Linux system, I recommend adding `/path/to/victopo/bin` to your executables path variable. (How to do this will vary by operating system, [Mac OS](https://www.google.com/search?q=max+add+path) or [Linux](https://www.google.com/search?q=linux+add+path).) You should then be able run it simply as the command `nswtopo`.
 
 When the script starts it will list the scale of your map (e.g. 1:25000), its rotation, physical size and on-the-ground extent. The script will then proceed to download topographic data. Depending on your connection and the size of your map, many minutes may be required. (I suggest starting with a small map, say 80mm x 80mm, just to familiarize yourself with the software; this should only take a few minutes.) It is best not to interrupt the program while the topographic data is downloading, as you will have to start over.
 
@@ -473,9 +473,9 @@ Several formats of georeferenced output image are available. You can specify `ti
 Customising Topographic Rendering
 =================================
 
-You can control how the raw topographic data (e.g. `nsw.topographic.json`) is rendered into you final map. This allows you to change the colour, size and opacity of individual layers. The default rendering was chosen to give a reasonable map with emphasis on contours, and changes to rendering may not be needed.
+You can control how the raw topographic data (e.g. `vic.topographic.json`) is rendered into you final map. This allows you to change the colour, size and opacity of individual layers. The default rendering was chosen to give a reasonable map with emphasis on contours, and changes to rendering may not be needed.
 
-To change rendering of a feature, open your map and identify the name of the topographic layer (e.g. `nsw.topographic.contours-10m`) containing the feature.
+To change rendering of a feature, open your map and identify the name of the topographic layer (e.g. `vic.topographic.contours-10m`) containing the feature.
 
 For each layer which you wish to modify, add a corresponding section in your `nswtopo.cfg` file. Specify one or more of `opacity`, `stroke`, `fill`, `stroke-width` and `dash` values to change the opacity, line colour, fill colour, line width and dashes, respectively, of the features in that layer. Colours should be specified as hex triplets (e.g. `"#FF0000"` for red), alternately a [web colour name](http://en.wikipedia.org/wiki/Web_colors). Use a [colour picker](http://www.google.com/search?q=color+picker) to choose your desired colour and get its hex triplet. `opacity` should be a value between 0.0 and 1.0. The `stroke-width` attribute specifies the width of a line in millimetres. The `dash` value specifies a dash array for dashed lines (as a series of dash and space lengths, in millimetres).
 
