@@ -37,7 +37,7 @@ module NSWTopo
           raise BadLayerError.new("no dem data files at specified path") if paths.empty?
         end
       else
-        base_uri = URI.parse "http://www.ga.gov.au/gisimg/rest/services/topography/dem_s_1s/ImageServer/"
+        base_uri = URI.parse "http://www.ga.gov.au/gisimg/rest/services/topography/dem_s_aspect/ImageServer/"
         wgs84_bounds = map.projection.transform_bounds_to Projection.wgs84, bounds
         base_query = { "f" => "json", "geometry" => wgs84_bounds.map(&:sort).transpose.flatten.join(?,) }
         query = base_query.merge("returnIdsOnly" => true, "where" => "category = 1").to_query

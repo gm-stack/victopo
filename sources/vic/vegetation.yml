@@ -1,13 +1,13 @@
 min-version: '1.4'
-class: ArcGISVector
+class: FeatureSource
 sources:
-  topography:
-    url: https://emap.depi.vic.gov.au
-    folder: add_map_layers
-    service: topography
+  wfs:
+    protocol: wfs
+    url: http://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs
 features:
   tree-cover:
-    name: Tree Cover (Scale < 25K) 
+    source: wfs
+    name: VMVEG_TREE_DENSITY
     category: TREE_DENSITY
 tree-cover:
   stroke: none

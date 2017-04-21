@@ -40,6 +40,16 @@ features:
    name: VMFEAT_FOI_POINT
    label: NAME_LABEL
    filter: FEATURE_SUBTYPE IN ('emergency marker')
+  camp:
+   source: wfs
+   name: VMFEAT_FOI_POINT
+   label: NAME_LABEL
+   filter: FEATURE_SUBTYPE IN ('camp ground')
+  camp:
+   source: wfs
+   name: VMFEAT_FOI_POINT
+   label: NAME_LABEL
+   filter: FEATURE_SUBTYPE IN ('camp ground')
   excavation:
    source: wfs
    name: VMFEAT_FOI_POLYGON
@@ -90,11 +100,6 @@ features:
      "1": Intermittent
      "2": Perennial
      ~: Perennial
-  reserves:
-   source: wfs
-   name: VMFEAT_FOI_POLYGON
-   filter: FEATURE_TYPE IN ('reserve') 
-   category: FEATURE_SUBTYPE    
   railways:
    source: wfs
    name: VMTRANS_TR_RAIL
@@ -144,8 +149,8 @@ features:
      - CLASS_CODE IN ('0','1','2')
      - ROAD_SEAL NOT IN ('2')
      - ROAD_NAME NOT IN ('UNNAMED')
-    lable-only: ture
-    lable: EZI_ROAD_NAME_LABEL       
+    label-only: ture
+    label: EZI_ROAD_NAME_LABEL       
   unsealed_hwy_fwy_art_roads:
   - source: wfs
     name: VMTRANS_TR_ROAD
@@ -158,8 +163,8 @@ features:
      - CLASS_CODE IN ('0','1','2')
      - ROAD_SEAL NOT IN ('1','3')
      - ROAD_NAME NOT IN ('UNNAMED')
-    lable-only: ture
-    lable: EZI_ROAD_NAME_LABEL       
+    label-only: ture
+    label: EZI_ROAD_NAME_LABEL       
   sealed_subarterial_collector_roads:
   - source: wfs
     name: VMTRANS_TR_ROAD
@@ -172,8 +177,8 @@ features:
      - CLASS_CODE IN ('3','4')
      - ROAD_SEAL NOT IN ('2')
      - ROAD_NAME NOT IN ('UNNAMED')
-    lable-only: ture
-    lable: EZI_ROAD_NAME_LABEL     
+    label-only: ture
+    label: EZI_ROAD_NAME_LABEL     
   unsealed_subarterial_collector_roads:
   - source: wfs
     name: VMTRANS_TR_ROAD
@@ -186,8 +191,8 @@ features:
      - CLASS_CODE IN ('3','4')
      - ROAD_SEAL NOT IN ('1','3')
      - ROAD_NAME NOT IN ('UNNAMED')
-    lable-only: ture
-    lable: EZI_ROAD_NAME_LABEL    
+    label-only: ture
+    label: EZI_ROAD_NAME_LABEL    
   sealed_local_roads:
   - source: wfs
     name: VMTRANS_TR_ROAD
@@ -200,8 +205,8 @@ features:
      - CLASS_CODE IN ('5')
      - ROAD_SEAL NOT IN ('2')
      - ROAD_NAME NOT IN ('UNNAMED')
-    lable-only: ture
-    lable: EZI_ROAD_NAME_LABEL 
+    label-only: ture
+    label: EZI_ROAD_NAME_LABEL 
   unsealed_local_roads:
   - source: wfs
     name: VMTRANS_TR_ROAD
@@ -214,8 +219,8 @@ features:
      - CLASS_CODE IN ('5')
      - ROAD_SEAL NOT IN ('1','3')
      - ROAD_NAME NOT IN ('UNNAMED')
-    lable-only: ture
-    lable: EZI_ROAD_NAME_LABEL
+    label-only: ture
+    label: EZI_ROAD_NAME_LABEL
   4wdtrack:
   - source: wfs
     name: VMTRANS_TR_ROAD
@@ -225,8 +230,8 @@ features:
     filter: 
      - CLASS_CODE IN ('7')
      - ROAD_NAME NOT IN ('UNNAMED')
-    lable-only: ture
-    lable: EZI_ROAD_NAME_LABEL
+    label-only: ture
+    label: EZI_ROAD_NAME_LABEL
   2wdtrack:
   - source: wfs
     name: VMTRANS_TR_ROAD
@@ -236,8 +241,8 @@ features:
     filter: 
      - CLASS_CODE IN ('6')
      - ROAD_NAME NOT IN ('UNNAMED')
-    lable-only: ture
-    lable: EZI_ROAD_NAME_LABEL   
+    label-only: ture
+    label: EZI_ROAD_NAME_LABEL   
   walk_cycle_tracks:
   - source: wfs
     name: VMTRANS_TR_ROAD
@@ -247,9 +252,13 @@ features:
     filter: 
      - CLASS_CODE IN ('11','12')
      - ROAD_NAME NOT IN ('UNNAMED')
-    lable-only: ture
-    lable: EZI_ROAD_NAME_LABEL 
+    label-only: ture
+    label: EZI_ROAD_NAME_LABEL 
     
+
+
+
+
 sealed_hwy_fwy_art_roads:
   stroke-width: 0.6
   stroke: red
@@ -318,9 +327,6 @@ contours-10m:
         stroke: "#805100"
         stroke-width: 0.12
         y2: 0.3
-reserves:
-  fill: "#cce8cc"
-  opacity: 0.5
 excavation:
   fill: none
   stroke: black
@@ -329,6 +335,15 @@ excavation:
     interval: 1.2
     line:
       y2: -0.6
+groundtype:
+  fill: "#edeaea"
+  opacity: 0.5
+  stroke: black
+  stroke-width: 0.12
+  symbolise:
+    interval: 1.2
+    line:
+      y2: -0.6      
 cadastre:
   opacity: 0.5
   stroke: "#777777"
