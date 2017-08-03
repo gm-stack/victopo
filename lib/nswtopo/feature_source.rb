@@ -278,6 +278,86 @@ module NSWTopo
       end
     end
     
+    def wfs2_features(map, source, options)
+      url = source["url"]
+      type_name = options["name"]
+      per_page = [ *options["per-page"], *source["per-page"], 500 ].min
+      headers = source["headers"]
+      base_query = { "service" => "wfs", "version" => "2.0.0" }
+      
+      query = base_query.merge("request" => "DescribeFeatureType", "typeName" => type_name).to_query
+      xml = WFS.get_xml URI.parse("#{url}?#{query}"), headers
+      namespace, type = xml.elements["xsd:schema/xsd:element[@name='#{type_name}']/@type"].value.split ?:
+      names = xml.elements.each("xsd:schema/[@name='#{type}']//xsd:element[@name][starts-with(@type,'xsd:')]/@name").map(&:value)
+      types = xml.elements.each("xsd:schema/[@name='#{type}']//xsd:element[@name][starts-with(@type,'xsd:')]/@type").map(&:value)
+      methods = names.zip(types).map do |name, type|
+        method = case type
+        when *%w[xsd:float xsd:double xsd:decimal] then :to_f
+        when *%w[xsd:int xsd:short]                then :to_i
+        else                                            :to_s
+        end
+        { name => method }
+      end.inject({}, &:merge)
+      
+      geometry_name = xml.elements["xsd:schema/[@name='#{type}']//xsd:element[@name][starts-with(@type,'gml:')]/@name"].value
+      geometry_type = xml.elements["xsd:schema/[@name='#{type}']//xsd:element[@name][starts-with(@type,'gml:')]/@type"].value
+      dimension = case geometry_type
+      when *%w[gml:PointPropertyType gml:MultiPointPropertyType] then 0
+      when *%w[gml:CurvePropertyType gml:MultiCurvePropertyType] then 1
+      when *%w[gml:SurfacePropertyType gml:MultiSurfacePropertyType] then 2
+      else raise BadLayerError.new "unsupported geometry type '#{geometry_type}'"
+      end
+      
+      query = base_query.merge("request" => "GetCapabilities").to_query
+      xml = WFS.get_xml URI.parse("#{url}?#{query}"), headers
+      default_crs = xml.elements["wfs:WFS_Capabilities/FeatureTypeList/FeatureType[Name[text()='#{namespace}:#{type_name}']]/DefaultCRS"].text
+      wkid = default_crs.match(/EPSG::(\d+)$/)[1]
+      projection = Projection.new "epsg:#{wkid}"
+      
+      points = map.projection.reproject_to(projection, map.coord_corners)
+      polygon = [ *points, points.first ].map { |corner| corner.reverse.join ?\s }.join ?,
+      bounds_filter = "INTERSECTS(#{geometry_name},POLYGON((#{polygon})))"
+      
+      filters = [ bounds_filter, *options["filter"], *options["where"] ]
+      names &= [ *options["category"], *options["rotate"], *options["label"] ]
+      get_query = {
+        "request" => "GetFeature",
+        "typeNames" => type_name,
+        "count" => per_page,
+        "cql_filter" => "(#{filters.join ') AND ('})"
+      }
+      
+      Enumerator.new do |yielder|
+        loop do
+          query = base_query.merge(get_query).to_query
+          xml = WFS.get_xml URI.parse("#{url}?#{query}"), headers
+          xml.elements.each("wfs:FeatureCollection/wfs:member/#{namespace}:#{type_name}") do |member|
+            elements = names.map do |name|
+              member.elements["#{namespace}:#{name}"]
+            end
+            values = methods.values_at(*names).zip(elements).map do |method, element|
+              element ? element.attributes["xsi:nil"] == "true" ? nil : element.text ? element.text.send(method) : "" : nil
+            end
+            attributes = Hash[names.zip values]
+            data = case dimension
+            when 0
+              member.elements.each(".//gml:pos/text()").map(&:to_s).map do |string|
+                string.split.map(&:to_f).reverse
+              end
+            when 1, 2
+              member.elements.each(".//gml:posList/text()").map(&:to_s).map do |string|
+                string.split.map(&:to_f).each_slice(2).map(&:reverse)
+              end
+            end.map do |point_or_points|
+              map.reproject_from projection, point_or_points
+            end
+            yielder << [ dimension, data, attributes ]
+          end.length == per_page || break
+          index += per_page
+        end
+      end
+    end
+    
     def create(map)
       return if path.exist?
       
@@ -348,6 +428,7 @@ module NSWTopo
               case source["protocol"]
               when "arcgis"     then    arcgis_features(map, source, options)
               when "wfs"        then       wfs_features(map, source, options)
+              when "wfs2"        then       wfs2_features(map, source, options)  
               when "shapefile"  then shapefile_features(map, source, options)
               end
             rescue InternetError, ServerError => error

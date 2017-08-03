@@ -2,10 +2,10 @@
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
     <name>Untitled layer</name>
-    <Style id="poly-000000-1-77-nodesc-normal">
+    <Style id="poly-000000-1200-77-nodesc-normal">
       <LineStyle>
         <color>ff000000</color>
-        <width>1</width>
+        <width>1.2</width>
       </LineStyle>
       <PolyStyle>
         <color>4d000000</color>
@@ -16,10 +16,10 @@
         <text><![CDATA[<h3>$[name]</h3>]]></text>
       </BalloonStyle>
     </Style>
-    <Style id="poly-000000-1-77-nodesc-highlight">
+    <Style id="poly-000000-1200-77-nodesc-highlight">
       <LineStyle>
         <color>ff000000</color>
-        <width>2</width>
+        <width>1.8</width>
       </LineStyle>
       <PolyStyle>
         <color>4d000000</color>
@@ -30,30 +30,29 @@
         <text><![CDATA[<h3>$[name]</h3>]]></text>
       </BalloonStyle>
     </Style>
-    <StyleMap id="poly-000000-1-77-nodesc">
+    <StyleMap id="poly-000000-1200-77-nodesc">
       <Pair>
         <key>normal</key>
-        <styleUrl>#poly-000000-1-77-nodesc-normal</styleUrl>
+        <styleUrl>#poly-000000-1200-77-nodesc-normal</styleUrl>
       </Pair>
       <Pair>
         <key>highlight</key>
-        <styleUrl>#poly-000000-1-77-nodesc-highlight</styleUrl>
+        <styleUrl>#poly-000000-1200-77-nodesc-highlight</styleUrl>
       </Pair>
     </StyleMap>
     <Placemark>
-      <name>Polygon 2</name>
-      <styleUrl>#poly-000000-1-77-nodesc</styleUrl>
+      <name>Polygon 1</name>
+      <styleUrl>#poly-000000-1200-77-nodesc</styleUrl>
       <Polygon>
         <outerBoundaryIs>
           <LinearRing>
             <tessellate>1</tessellate>
             <coordinates>
-              146.8308896,-37.5293314,0
-              146.7758642,-37.5279727,0
-              146.7743184,-37.5441159,0
-              146.8022561,-37.5496461,0
-              146.8267657,-37.5453382,0
-              146.8308896,-37.5293314,0
+              146.4335918,-37.1011251,0
+              146.435051,-37.1347296,0
+              146.5131569,-37.148482,0
+              146.5115261,-37.1083811,0
+              146.4335918,-37.1011251,0
             </coordinates>
           </LinearRing>
         </outerBoundaryIs>
